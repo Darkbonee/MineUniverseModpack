@@ -1,0 +1,10 @@
+{
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:grove": "2023-04-02 03:10:30 +0300",
+      "minecraft:frozen_peaks": "2023-04-02 03:10:12 +0300"
+    },
+    "done": false
+  },
+  "DataVersion": 3120
+}

@@ -1,0 +1,6 @@
+{
+  "champb_health": 200.0,
+  "champb_attack_cooldown_ticks": 20,
+  "champb_special_cooldown_ticks": 60,
+  "champb_damage_modifier": 1.0
+}
