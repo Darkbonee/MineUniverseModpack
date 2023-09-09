@@ -34,5 +34,4 @@ public class bossAxe extends AxeItem {
         return false;
     }
 
-
 }
