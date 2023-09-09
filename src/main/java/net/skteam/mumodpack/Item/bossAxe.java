@@ -9,17 +9,17 @@ import net.minecraft.util.Rarity;
 public class bossAxe extends AxeItem {
 
     public bossAxe(Settings settings){
-        super(ToolMaterials.IRON, 7, -2f, settings);
+        super(ToolMaterials.IRON, 7, -3.15f, settings);
     }
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        int hpHeal = 4;
-        attacker.setHealth(attacker.getHealth() + hpHeal);
+        attacker.setHealth(attacker.getHealth() + (int)(getAttackDamage()/2));
         return super.postHit(stack, target, attacker);
     }
 
     @Override
+
     public int getEnchantability() {
         return 0;
     }
@@ -33,4 +33,6 @@ public class bossAxe extends AxeItem {
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return false;
     }
+
+
 }
