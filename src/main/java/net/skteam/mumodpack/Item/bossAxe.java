@@ -19,7 +19,6 @@ public class bossAxe extends AxeItem {
     }
 
     @Override
-
     public int getEnchantability() {
         return 0;
     }
