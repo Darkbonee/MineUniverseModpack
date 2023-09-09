@@ -28,4 +28,9 @@ public class bossAxe extends AxeItem {
     public Rarity getRarity(ItemStack stack) {
         return Rarity.RARE;
     }
+
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+        return false;
+    }
 }
