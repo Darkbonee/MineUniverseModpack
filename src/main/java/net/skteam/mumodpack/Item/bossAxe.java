@@ -11,7 +11,7 @@ import java.util.Random;
 public class bossAxe extends AxeItem {
 
     public bossAxe(Settings settings){
-        super(ToolMaterials.IRON, 9, -3.4f, settings);
+        super(ToolMaterials.IRON, 9, -3.35f, settings);
     }
 
     @Override
