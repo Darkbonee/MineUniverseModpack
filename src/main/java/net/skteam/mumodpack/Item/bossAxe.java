@@ -29,7 +29,7 @@ public class bossAxe extends AxeItem {
 
     @Override
     public Rarity getRarity(ItemStack stack) {
-        return Rarity.RARE;
+        return Rarity.EPIC;
     }
 
     @Override
