@@ -32,7 +32,7 @@ public class BanditRade implements AttackEntityCallback {
     protected void startFirstWave(World world, PlayerEntity player){
 
             PillagerEntity pillager = new PillagerEntity(EntityType.PILLAGER, world);
-            player.sendMessage(Text.literal("Тест"));
+            player.sendMessage(Text.literal("Тест")); //проверка на запуск метода (если выведет в чат, то работает)
             pillager.setPosition(player.getPos());
             world.spawnEntity(pillager);
 
