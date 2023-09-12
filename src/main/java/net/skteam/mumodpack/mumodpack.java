@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 import net.skteam.mumodpack.config.ConfigConstructor;
 import net.skteam.mumodpack.config.MidnightConfig;
 import net.skteam.mumodpack.registry.EntityRegistry;
+import net.skteam.mumodpack.registry.EventRegistry;
 import net.skteam.mumodpack.registry.ItemRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +28,11 @@ public class mumodpack implements ModInitializer {
 		LOGGER.info("Config initialized!");
 		ItemRegistry.init();
 		EntityRegistry.init();
+		EventRegistry.init();
 		LOGGER.info("Successfully registered MineUniverse content!");
 		GeckoLib.initialize();
 		LOGGER.info("Successfully initialized Geckolib!");
 		LOGGER.info("Initializing done!");
+
 	}
 }
