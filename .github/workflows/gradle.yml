@@ -1,38 +1,33 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.2-SNAPSHOT'
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.,
+	// for more information about repositories.
+}
 
+loom {
+    splitEnvironmentSourceSets()
 
-	//geckolib
-	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-
-	//нужны для better combat
-		//Cloth Config
-	maven { url "https://maven.shedaniel.me/" }
-	maven { url "https://maven.terraformersmc.com/releases/" }
-		//playerAnimator
-	maven {
-		name "KosmX's maven"
-		url 'https://maven.kosmx.dev/'
+	mods {
+		"modid" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
 	}
 
-	//сам better combat
-	maven { url 'https://api.modrinth.com/maven' }
 }
 
 dependencies {
@@ -43,29 +38,11 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	// Uncomment the following line to enable the deprecated Fabric API modules.
+	
+	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
-	modImplementation "software.bernie.geckolib:geckolib-fabric-1.19:${project.geckolib_version}"
-
-	// Cloth Config (need for better combat)
-	modApi("me.shedaniel.cloth:cloth-config-fabric:8.3.103")
-
-
-
-	//playerAnimator
-
-	//If you don't want to include the library in your jar, remove the include word
-	//You can find the latest version in [](https://maven.kosmx.dev/dev/kosmx/player-anim/player-animation-lib-fabric/)
-	modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}")
-
-	//You might want bendy-lib. playerAnimator will wrap it.
-	//include modRuntimeOnly("io.github.kosmx.bendy-lib:bendy-lib-fabric:${project.bendylib_version}")
-
-	//better combat
-	modImplementation "maven.modrinth:better-combat:1.7.1+1.19-fabric"
 }
 
 processResources {
@@ -77,7 +54,6 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
 }
 
@@ -86,11 +62,14 @@ java {
 	// if it is present.
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project.base.archivesName.get()}"}
 	}
 }
 
