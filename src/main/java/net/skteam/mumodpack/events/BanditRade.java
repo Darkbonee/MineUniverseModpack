@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.PillagerEntity;
+import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.entity.mob.VindicatorEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,34 +26,26 @@ public class BanditRade implements AttackEntityCallback {
 
     private PlayerEntity player;
 
-    World world;
-
-
-
-    private VindicatorEntity vindicator;
-
     private final Random random = new Random();
-
-    private final double lX = random.nextDouble(2) + 5;
-    private final double lZ = random.nextDouble(2) + 5;
 
 
     //Создание волн
-    protected void startFirstWave(World world, PlayerEntity player){
-
-            PillagerEntity pillager = new PillagerEntity(EntityType.PILLAGER, world);
-            player.sendMessage(Text.literal("Тест")); //проверка на запуск метода (если выведет в чат, то работает)
-            pillager.setPosition(player.getPos());
-            if(world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getPos());
-                pillager.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.NATURAL, (EntityData)null, (NbtCompound)null);
-                pillager.refreshPositionAndAngles(pos, 0.0F, 0.0F);
-                world.spawnEntity(pillager);
-            }
+    protected void startFirstWave(PlayerEntity player, World world){
+        int deadCounter = 0;
+        player.sendMessage(Text.literal("Тест")); //проверка на запуск метода (если выведет в чат, то работает)
+        spawnPillager(world, player, 18);
+//        if(pillager.isDead()){
+//            deadCounter += 1;
+//        }
+//        if(deadCounter == 1){
+//            player.sendMessage(Text.literal("умер бандит"));
+//        }
 
     }
 
-    protected  void startSecondWave(){
+    protected  void startSecondWave(PlayerEntity player, World world){
+        player.sendMessage(Text.literal("Тест")); //проверка на запуск метода (если выведет в чат, то работает)
+        spawnPillager(world, player, 18);
 
     }
 
@@ -91,10 +84,10 @@ public class BanditRade implements AttackEntityCallback {
             ((SheepEntity) entity).setHealth(0);
             player.sendMessage(Text.literal( "Иллюзия развеялась... Легионы призваны!"));
             player.sendMessage(Text.literal(player.getName().getString() + " призвал нашествие бандитов!"));
-            for(int i = 1; i < 10; i ++) {
+            for(int i = 1; i < 10; i++) {
                 switch (i){
                     case 1: {
-                        startFirstWave(world, player);
+                        startFirstWave(player, world);
                         break;
                     }
 
@@ -104,5 +97,63 @@ public class BanditRade implements AttackEntityCallback {
         }
         return ActionResult.PASS;
     }
+
+    public PillagerEntity getPillager(World world){
+        PillagerEntity pillager = new PillagerEntity(EntityType.PILLAGER, world);
+        return pillager;
+    }
+
+    public VindicatorEntity getVindicator(World world){
+       VindicatorEntity vindicator = new VindicatorEntity(EntityType.VINDICATOR, world);
+        return vindicator;
+    }
+
+    public RavagerEntity getRavager(World world){
+       RavagerEntity ravager = new RavagerEntity(EntityType.RAVAGER, world);
+        return ravager;
+    }
+
+    public void spawnPillager(World world, PlayerEntity player, int count){
+        for(int i = 1; i < count + 1; i++) {
+            PillagerEntity pillager = getPillager(world);
+            final double lX = random.nextDouble(15 + 10) - 10;
+            final double lZ = random.nextDouble(15 + 10) - 10;
+            pillager.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
+            if (world instanceof ServerWorld) {
+                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                pillager.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
+                world.spawnEntity(pillager);
+            }
+        }
+    }
+
+    public void spawnVindicator(World world, PlayerEntity player, int count){
+        for(int i = 1; i <count + 1; i++) {
+            final double lX = random.nextDouble(15 + 10) - 10;
+            final double lZ = random.nextDouble(15 + 10) - 10;
+            VindicatorEntity vindicator = getVindicator(world);
+            vindicator.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
+            if (world instanceof ServerWorld) {
+                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                vindicator.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
+                world.spawnEntity(vindicator);
+            }
+        }
+    }
+
+    public void spawnRavager(World world, PlayerEntity player, int count){
+        for(int i = 1; i <count + 1; i++) {
+            final double lX = random.nextDouble(15 + 10) - 10;
+            final double lZ = random.nextDouble(15 + 10) - 10;
+            RavagerEntity ravager = getRavager(world);
+            ravager.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
+            if (world instanceof ServerWorld) {
+                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                ravager.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
+                world.spawnEntity(ravager);
+            }
+        }
+    }
+
 
 }
