@@ -14,7 +14,7 @@ import software.bernie.example.registry.EntityRegistryBuilder;
 
 public class EntityRegistry {
 
-    private static String MOD_ID = mumodpack.MOD_ID;
+    private static final String MOD_ID = mumodpack.MOD_ID;
     public static final ItemGroup MAIN_GROUP = mumodpack.MAIN_GROUP;
 
     public static final EntityType<ChampBEntity> CHAMP_B_ENTITY = EntityRegistryBuilder.<ChampBEntity>createBuilder(new Identifier(MOD_ID, "champ_b_entity")).category(SpawnGroup.MONSTER).entity(ChampBEntity::new).dimensions(EntityDimensions.changing(1F, 2F)).build();
