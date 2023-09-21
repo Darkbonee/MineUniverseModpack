@@ -239,11 +239,6 @@ public class BanditRade implements  AfterKilledOtherEntity {
             }
 
         }
-
-
-
-
-
     }
 
 }
