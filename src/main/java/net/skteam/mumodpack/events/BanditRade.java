@@ -109,11 +109,11 @@ public class BanditRade implements  AfterKilledOtherEntity {
     public void spawnBoss(World world, PlayerEntity player, int count){
         for(int i = 1; i < count + 1; i++) {
             ChampBEntity champB = getBoss(world);
-            final double lX = random.nextDouble(15 + 10) - 10;
-            final double lZ = random.nextDouble(15 + 10) - 10;
+            final double lX = random.nextDouble(30 + 10) - 10;
+            final double lZ = random.nextDouble(30 + 10) - 10;
             champB.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                BlockPos pos = new BlockPos(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
                 champB.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(champB);
             }
@@ -123,11 +123,11 @@ public class BanditRade implements  AfterKilledOtherEntity {
     public void spawnPillager(World world, PlayerEntity player, int count){
         for(int i = 1; i < count + 1; i++) {
             PillagerEntity pillager = getPillager(world);
-            final double lX = random.nextDouble(15 + 10) - 10;
-            final double lZ = random.nextDouble(15 + 10) - 10;
+            final double lX = random.nextDouble(30 + 10) - 10;
+            final double lZ = random.nextDouble(30 + 10) - 10;
             pillager.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                BlockPos pos = new BlockPos(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
                 pillager.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(pillager);
             }
@@ -137,11 +137,11 @@ public class BanditRade implements  AfterKilledOtherEntity {
     public void spawnVindicator(World world, PlayerEntity player, int count){
         for(int i = 1; i <count + 1; i++) {
             VindicatorEntity vindicator = getVindicator(world);
-            final double lX = random.nextDouble(15 + 10) - 10;
-            final double lZ = random.nextDouble(15 + 10) - 10;
+            final double lX = random.nextDouble(30 + 10) - 10;
+            final double lZ = random.nextDouble(30 + 10) - 10;
             vindicator.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                BlockPos pos = new BlockPos(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
                 vindicator.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(vindicator);
             }
@@ -150,12 +150,12 @@ public class BanditRade implements  AfterKilledOtherEntity {
 
     public void spawnRavager(World world, PlayerEntity player, int count){
         for(int i = 1; i <count + 1; i++) {
-            final double lX = random.nextDouble(15 + 10) - 10;
-            final double lZ = random.nextDouble(15 + 10) - 10;
+            final double lX = random.nextDouble(30 + 10) - 10;
+            final double lZ = random.nextDouble(30 + 10) - 10;
             RavagerEntity ravager = getRavager(world);
             ravager.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                BlockPos pos = new BlockPos(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
                 ravager.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(ravager);
             }
@@ -164,12 +164,12 @@ public class BanditRade implements  AfterKilledOtherEntity {
 
     public void spawnWitch(World world, PlayerEntity player, int count){
         for(int i = 1; i <count + 1; i++) {
-            final double lX = random.nextDouble(15 + 10) - 10;
-            final double lZ = random.nextDouble(15 + 10) - 10;
+            final double lX = random.nextDouble(30 + 10) - 10;
+            final double lZ = random.nextDouble(30 + 10) - 10;
             WitchEntity witch = getWitch(world);
             witch.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() - lX, player.getY() + 0.5, player.getZ() - lZ);
+                BlockPos pos = new BlockPos(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
                 witch.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(witch);
             }
