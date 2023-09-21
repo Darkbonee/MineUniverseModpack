@@ -22,7 +22,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
 
     private int deadCounter = 0;
 
-    private int wave = 1;
+    private int wave = 0;
 
     private final Random random = new Random();
 
@@ -183,6 +183,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
             entity.sendMessage(Text.literal("Иллюзия развеялась... Легионы призваны!"));
             entity.sendMessage(Text.literal(entity.getName().getString() + " призвал нашествие бандитов!"));
             startFirstWave(((PlayerEntity) entity), world);
+            wave = 1;
         }
 
         if(killedEntity instanceof PillagerEntity || killedEntity instanceof VindicatorEntity ||
