@@ -2,10 +2,7 @@ package net.skteam.mumodpack.events;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents.AfterKilledOtherEntity;
 import net.minecraft.entity.*;
-import net.minecraft.entity.mob.PillagerEntity;
-import net.minecraft.entity.mob.RavagerEntity;
-import net.minecraft.entity.mob.VindicatorEntity;
-import net.minecraft.entity.mob.WitchEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -56,24 +53,28 @@ public class BanditRade implements  AfterKilledOtherEntity {
         spawnPillager(world, player, 18);
         spawnVindicator(world, player, 7);
         spawnWitch(world, player, 2);
+        spawnEvoker(world, player, 3);
     }
 
     protected  void startSixthWave(PlayerEntity player, World world){
         spawnPillager(world, player, 18);
         spawnVindicator(world, player, 6);
         spawnWitch(world, player, 5);
+        spawnEvoker(world, player, 3);
     }
 
     protected void startSeventhWave(PlayerEntity player, World world){
         spawnPillager(world, player, 16);
         spawnVindicator(world, player, 10);
         spawnWitch(world, player, 4);
+        spawnEvoker(world, player, 4);
     }
 
     protected void startEighthWave(PlayerEntity player, World world){
         spawnPillager(world, player, 16);
         spawnVindicator(world, player, 10);
         spawnWitch(world, player, 6);
+        spawnEvoker(world, player, 4);
         spawnBoss(world, player, 1);
     }
 
@@ -99,6 +100,11 @@ public class BanditRade implements  AfterKilledOtherEntity {
     public WitchEntity getWitch(World world){
         WitchEntity witch = new WitchEntity(EntityType.WITCH, world);
         return witch;
+    }
+
+    public EvokerEntity getEvoker(World world){
+        EvokerEntity evoker = new EvokerEntity(EntityType.EVOKER, world);
+        return evoker;
     }
 
     public ChampBEntity getBoss(World world){
@@ -176,6 +182,20 @@ public class BanditRade implements  AfterKilledOtherEntity {
         }
     }
 
+    public void spawnEvoker(World world, PlayerEntity player, int count){
+        for(int i = 1; i <count + 1; i++) {
+            final double lX = random.nextDouble(30 + 10) - 10;
+            final double lZ = random.nextDouble(30 + 10) - 10;
+            EvokerEntity evoker = getEvoker(world);
+            evoker.setPosition(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
+            if (world instanceof ServerWorld) {
+                BlockPos pos = new BlockPos(player.getX() + lX, player.getY() + 0.5, player.getZ() + lZ);
+                evoker.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
+                world.spawnEntity(evoker);
+            }
+        }
+    }
+
     @Override
     public void afterKilledOtherEntity(ServerWorld world, Entity entity , LivingEntity killedEntity) {
 
@@ -183,6 +203,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
             entity.sendMessage(Text.literal("Иллюзия развеялась... Легионы призваны!"));
             entity.sendMessage(Text.literal(entity.getName().getString() + " призвал нашествие бандитов!"));
             startFirstWave(((PlayerEntity) entity), world);
+            spawnEvoker(world, ((PlayerEntity) entity), 1);
             wave = 1;
         }
 
@@ -215,25 +236,25 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 wave = 5;
             }
 
-            if(deadCounter == 27 && wave == 5){
+            if(deadCounter == 30 && wave == 5){
                 startSixthWave(((PlayerEntity) entity), world);
                 deadCounter = 0;
                 wave = 6;
             }
 
-            if(deadCounter == 29 && wave == 6){
+            if(deadCounter == 32 && wave == 6){
                 startSeventhWave(((PlayerEntity) entity), world);
                 deadCounter = 0;
                 wave = 7;
             }
 
-            if(deadCounter == 30 && wave == 7){
+            if(deadCounter == 34 && wave == 7){
                 startEighthWave(((PlayerEntity) entity), world);
                 deadCounter = 0;
                 wave = 8;
             }
 
-            if(deadCounter == 33 && wave == 8){
+            if(deadCounter == 37 && wave == 8){
                 endOfTheRaid(((PlayerEntity) entity));
                 deadCounter = 0;
                 wave = 0;
@@ -241,5 +262,4 @@ public class BanditRade implements  AfterKilledOtherEntity {
 
         }
     }
-
 }
