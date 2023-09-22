@@ -199,11 +199,10 @@ public class BanditRade implements  AfterKilledOtherEntity {
     @Override
     public void afterKilledOtherEntity(ServerWorld world, Entity entity , LivingEntity killedEntity) {
 
-        if (killedEntity instanceof SheepEntity) {
+        if (entity instanceof PlayerEntity && killedEntity instanceof SheepEntity) {
             entity.sendMessage(Text.literal("Иллюзия развеялась... Легионы призваны!"));
             entity.sendMessage(Text.literal(entity.getName().getString() + " призвал нашествие бандитов!"));
             startFirstWave(((PlayerEntity) entity), world);
-            spawnEvoker(world, ((PlayerEntity) entity), 1);
             wave = 1;
         }
 

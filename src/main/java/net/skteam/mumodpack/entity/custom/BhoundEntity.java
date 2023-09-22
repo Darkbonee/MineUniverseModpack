@@ -37,14 +37,14 @@ public class BhoundEntity extends WolfEntity implements IAnimatable {
 
     private <E extends IAnimatable> PlayState dogAnimations(AnimationEvent<E> event) {
         if(event.isMoving()){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bhound.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bhound.walk", ILoopType.EDefaultLoopTypes.LOOP));
             return PlayState.CONTINUE;
         }
         if(this.isSitting()){
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bhound.idle", ILoopType.EDefaultLoopTypes.LOOP));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bhound.seat", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             return PlayState.CONTINUE;
         }
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bhound.idle", ILoopType.EDefaultLoopTypes.LOOP));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bhound.idle", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
         return PlayState.CONTINUE;
     }
 }
