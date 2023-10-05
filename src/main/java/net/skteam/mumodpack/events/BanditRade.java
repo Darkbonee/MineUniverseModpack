@@ -33,6 +33,36 @@ public class BanditRade implements  AfterKilledOtherEntity {
 
     ServerBossBar raidBar = new ServerBossBar(Text.literal("Нашествие бандитов - волна 1"), BossBar.Color.RED, BossBar.Style.NOTCHED_12);
 
+    protected int getNumberOfPlayers(@NotNull ServerWorld world){
+        int count = 0;
+        List<ServerPlayerEntity> worldPlayerList = world.getPlayers();
+        List<ServerPlayerEntity> raidPlayerlist = (List<ServerPlayerEntity>) raidBar.getPlayers();
+        Iterator worldPlayerIterator = worldPlayerList.iterator();
+        Iterator raidPlayerIterator = raidPlayerlist.iterator();
+
+        String[] nameInBar = new String[raidBar.getPlayers().size()];
+        for (int i = 0; i < nameInBar.length; i++) {
+            if(raidPlayerIterator.hasNext()){
+                nameInBar[i] = raidPlayerlist.get(i).toString();
+                raidPlayerIterator.next();
+            }
+        }
+
+
+        ServerPlayerEntity serverPlayerEntity;
+        while(worldPlayerIterator.hasNext()) {
+            serverPlayerEntity = (ServerPlayerEntity)worldPlayerIterator.next();
+            String name = serverPlayerEntity.toString();
+
+            for (int i = 0; i < nameInBar.length; i++) {
+                if(nameInBar[i].equals(name)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
     //Создание волн
     protected void startFirstWave(PlayerEntity player, World world){
         MobSpawn.spawnPillager(world, player, 18);
@@ -93,7 +123,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
     @Override
     public void afterKilledOtherEntity(ServerWorld world, Entity entity , LivingEntity killedEntity) {
 
-        if (entity instanceof PlayerEntity && killedEntity instanceof SheepEntity) {
+        if (entity instanceof PlayerEntity && killedEntity instanceof SheepEntity && wave == 0) {
             entity.sendMessage(Text.literal("Иллюзия развеялась... Легионы призваны!"));
             entity.sendMessage(Text.literal(entity.getName().getString() + " призвал нашествие бандитов!"));
             startFirstWave(((PlayerEntity) entity), world);
