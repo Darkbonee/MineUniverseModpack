@@ -33,6 +33,8 @@ repositories {
 
 	//сам better combat
 	maven { url 'https://api.modrinth.com/maven' }
+	//второй мод MU
+	maven { url 'https://api.modrinth.com/maven' }
 }
 
 dependencies {
@@ -68,6 +70,8 @@ dependencies {
 
 	//better combat
 	modImplementation "maven.modrinth:better-combat:1.7.1+1.19-fabric"
+	//Второй мод MU
+	modImplementation "maven.modrinth:mineuniverse-extra:0.0.1-fabric"
 }
 
 processResources {

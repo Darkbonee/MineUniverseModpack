@@ -33,39 +33,15 @@ public class BanditRade implements  AfterKilledOtherEntity {
 
     ServerBossBar raidBar = new ServerBossBar(Text.literal("Нашествие бандитов - волна 1"), BossBar.Color.RED, BossBar.Style.NOTCHED_12);
 
-    protected int getNumberOfPlayers(@NotNull ServerWorld world){
-        int count = 0;
-        List<ServerPlayerEntity> worldPlayerList = world.getPlayers();
-        List<ServerPlayerEntity> raidPlayerlist = (List<ServerPlayerEntity>) raidBar.getPlayers();
-        Iterator worldPlayerIterator = worldPlayerList.iterator();
-        Iterator raidPlayerIterator = raidPlayerlist.iterator();
+    //Создание волн
 
-        String[] nameInBar = new String[raidBar.getPlayers().size()];
-        for (int i = 0; i < nameInBar.length; i++) {
-            if(raidPlayerIterator.hasNext()){
-                nameInBar[i] = raidPlayerlist.get(i).toString();
-                raidPlayerIterator.next();
-            }
-        }
+    protected void startScoutWave(PlayerEntity player, World world){
 
-
-        ServerPlayerEntity serverPlayerEntity;
-        while(worldPlayerIterator.hasNext()) {
-            serverPlayerEntity = (ServerPlayerEntity)worldPlayerIterator.next();
-            String name = serverPlayerEntity.toString();
-
-            for (int i = 0; i < nameInBar.length; i++) {
-                if(nameInBar[i].equals(name)){
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
-    //Создание волн
     protected void startFirstWave(PlayerEntity player, World world){
         MobSpawn.spawnPillager(world, player, 18);
+        MobSpawn.spawnScout(world, player, 5);
     }
 
     protected  void startSecondWave(PlayerEntity player, World world){
@@ -425,6 +401,36 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 raidBar.removePlayer(serverPlayerEntity);
             }
         }
+    }
+
+    protected int getNumberOfPlayers(@NotNull ServerWorld world){
+        int count = 0;
+        List<ServerPlayerEntity> worldPlayerList = world.getPlayers();
+        List<ServerPlayerEntity> raidPlayerlist = (List<ServerPlayerEntity>) raidBar.getPlayers();
+        Iterator worldPlayerIterator = worldPlayerList.iterator();
+        Iterator raidPlayerIterator = raidPlayerlist.iterator();
+
+        String[] nameInBar = new String[raidBar.getPlayers().size()];
+        for (int i = 0; i < nameInBar.length; i++) {
+            if(raidPlayerIterator.hasNext()){
+                nameInBar[i] = raidPlayerlist.get(i).toString();
+                raidPlayerIterator.next();
+            }
+        }
+
+
+        ServerPlayerEntity serverPlayerEntity;
+        while(worldPlayerIterator.hasNext()) {
+            serverPlayerEntity = (ServerPlayerEntity)worldPlayerIterator.next();
+            String name = serverPlayerEntity.toString();
+
+            for (int i = 0; i < nameInBar.length; i++) {
+                if(nameInBar[i].equals(name)){
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
 }
