@@ -31,17 +31,15 @@ public class BanditRade implements  AfterKilledOtherEntity {
 
     private int total = 0;
 
+    private int numberOfPlayersInRaid = 0;
+
     ServerBossBar raidBar = new ServerBossBar(Text.literal("Нашествие бандитов - волна 1"), BossBar.Color.RED, BossBar.Style.NOTCHED_12);
 
     //Создание волн
 
-    protected void startScoutWave(PlayerEntity player, World world){
-
-    }
 
     protected void startFirstWave(PlayerEntity player, World world){
         MobSpawn.spawnPillager(world, player, 18);
-        MobSpawn.spawnScout(world, player, 5);
     }
 
     protected  void startSecondWave(PlayerEntity player, World world){
@@ -105,19 +103,21 @@ public class BanditRade implements  AfterKilledOtherEntity {
             startFirstWave(((PlayerEntity) entity), world);
             raidBar.setName(Text.literal("Нашествие бандитов - волна 1"));
             raidBar.setPercent(1.0F);
-            updateBarToPlayers(world);
+            updateBarToPlayers(world, (PlayerEntity) entity);
             deadCounter = 0;
             wave = 1;
             total = 18;
+            MobSpawn.setMX(entity.getX());
+            MobSpawn.setMZ(entity.getZ());
         }
 
         if(killedEntity instanceof PillagerEntity || killedEntity instanceof VindicatorEntity ||
                 killedEntity instanceof RavagerEntity || killedEntity instanceof WitchEntity || killedEntity instanceof ChampBEntity) {
-
             deadCounter = deadCounter + 1;
 
             updateBar((float) deadCounter, (float) total);
-            updateBarToPlayers(world);
+            updateBarToPlayers(world, (PlayerEntity) entity);
+
 
             if (deadCounter > 12 && wave == 1) {
                 if(deadCounter == 13){
@@ -129,7 +129,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 15){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 3)"));
                 }
 
                 if(deadCounter == 16){
@@ -137,12 +137,12 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 17){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 1)"));
                 }
 
             }
 
-            if (deadCounter == 3 && wave == 1) {
+            if (deadCounter == 18 && wave == 1) {
                 startSecondWave(((PlayerEntity) entity), world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 2"));
                 raidBar.setPercent(1.0F);
@@ -161,7 +161,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 22){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 3)"));
                 }
 
                 if(deadCounter == 23){
@@ -169,7 +169,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 24){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 1)"));
                 }
 
             }
@@ -193,7 +193,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 23){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 3)"));
                 }
 
                 if(deadCounter == 24){
@@ -201,7 +201,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 25){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 1)"));
                 }
 
             }
@@ -225,7 +225,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 28){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 3)"));
                 }
 
                 if(deadCounter == 29){
@@ -233,7 +233,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 30){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 1)"));
                 }
 
             }
@@ -257,7 +257,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 27){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 3)"));
                 }
 
                 if(deadCounter == 28){
@@ -265,7 +265,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 29){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 1)"));
                 }
 
             }
@@ -289,7 +289,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 29){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 3)"));
                 }
 
                 if(deadCounter == 30){
@@ -297,7 +297,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 31){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 1)"));
                 }
 
             }
@@ -321,7 +321,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 31){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 3)"));
                 }
 
                 if(deadCounter == 32){
@@ -329,7 +329,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 33){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 1)"));
                 }
 
             }
@@ -353,7 +353,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 34){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 3"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 3)"));
                 }
 
                 if(deadCounter == 35){
@@ -361,7 +361,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 }
 
                 if(deadCounter == 36){
-                    raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 1"));
+                    raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 1)"));
                 }
 
             }
@@ -380,7 +380,7 @@ public class BanditRade implements  AfterKilledOtherEntity {
         raidBar.setPercent((1.0F - (deadCounter/total)));
     }
 
-    private void updateBarToPlayers(@NotNull ServerWorld world){
+    private void updateBarToPlayers(@NotNull ServerWorld world, PlayerEntity entity){
         Set<ServerPlayerEntity> set = Sets.newHashSet(raidBar.getPlayers());
         List<ServerPlayerEntity> list = world.getPlayers();
         Iterator var3 = list.iterator();
@@ -396,41 +396,31 @@ public class BanditRade implements  AfterKilledOtherEntity {
         var3 = set.iterator();
 
         while(var3.hasNext()) {
+            numberOfPlayersInRaid = 0;
             serverPlayerEntity = (ServerPlayerEntity)var3.next();
             if (!list.contains(serverPlayerEntity)) {
                 raidBar.removePlayer(serverPlayerEntity);
+                numberOfPlayersInRaid = numberOfPlayersInRaid - 1;
+            }
+
+            if(list.contains(serverPlayerEntity)){
+                numberOfPlayersInRaid = numberOfPlayersInRaid + 1;
+                entity.sendMessage(Text.literal(numberOfPlayersInRaid + ""));
             }
         }
+
     }
 
-    protected int getNumberOfPlayers(@NotNull ServerWorld world){
+    protected void getNumberOfPlayers(PlayerEntity entity){
         int count = 0;
-        List<ServerPlayerEntity> worldPlayerList = world.getPlayers();
         List<ServerPlayerEntity> raidPlayerlist = (List<ServerPlayerEntity>) raidBar.getPlayers();
-        Iterator worldPlayerIterator = worldPlayerList.iterator();
         Iterator raidPlayerIterator = raidPlayerlist.iterator();
 
-        String[] nameInBar = new String[raidBar.getPlayers().size()];
-        for (int i = 0; i < nameInBar.length; i++) {
-            if(raidPlayerIterator.hasNext()){
-                nameInBar[i] = raidPlayerlist.get(i).toString();
-                raidPlayerIterator.next();
-            }
+        while(raidPlayerIterator.hasNext()){
+            count++;
+            entity.sendMessage(Text.literal(count + ""));
         }
 
-
-        ServerPlayerEntity serverPlayerEntity;
-        while(worldPlayerIterator.hasNext()) {
-            serverPlayerEntity = (ServerPlayerEntity)worldPlayerIterator.next();
-            String name = serverPlayerEntity.toString();
-
-            for (int i = 0; i < nameInBar.length; i++) {
-                if(nameInBar[i].equals(name)){
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
 }

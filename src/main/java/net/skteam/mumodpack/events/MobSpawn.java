@@ -22,6 +22,17 @@ public class MobSpawn {
 
     private static final Random random = new Random();
 
+    private static double MX = 0;
+    private static double MZ = 0;
+
+    protected static double setMX(double MXL){
+        return MX = MXL;
+    }
+
+    protected static double setMZ(double MZL){
+        return MZ = MZL;
+    }
+
 
 
     public static PillagerEntity getPillager(World world){
@@ -61,13 +72,13 @@ public class MobSpawn {
 
     public static void spawnBoss(World world, PlayerEntity player, int count){
         for(int i = 1; i < count + 1; i++) {
+            final double lX = random.nextDouble(25 + 15) - 15;
+            final double lZ = random.nextDouble(25 + 15) - 15;
+            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
             ChampBEntity champB = getBoss(world);
-            final double lX = random.nextDouble(30 + 10) - 10;
-            final double lZ = random.nextDouble(30 + 10) - 10;
-            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(player.getX() + lX), (int)(player.getZ() + lZ));
-            champB.setPosition(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+            champB.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+                BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
                 champB.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(champB);
             }
@@ -76,13 +87,13 @@ public class MobSpawn {
 
     public static void spawnPillager(World world, PlayerEntity player, int count){
         for(int i = 1; i < count + 1; i++) {
+            final double lX = random.nextDouble(25 + 15) - 15;
+            final double lZ = random.nextDouble(25 + 15) - 15;
+            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
             PillagerEntity pillager = getPillager(world);
-            final double lX = random.nextDouble(30 + 10) - 10;
-            final double lZ = random.nextDouble(30 + 10) - 10;
-            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(player.getX() + lX), (int)(player.getZ() + lZ));
-            pillager.setPosition(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+            pillager.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+                BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
                 pillager.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(pillager);
             }
@@ -91,13 +102,13 @@ public class MobSpawn {
 
     public static void spawnVindicator(World world, PlayerEntity player, int count){
         for(int i = 1; i <count + 1; i++) {
+            final double lX = random.nextDouble(25 + 15) - 15;
+            final double lZ = random.nextDouble(25 + 15) - 15;
+            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
             VindicatorEntity vindicator = getVindicator(world);
-            final double lX = random.nextDouble(30 + 10) - 10;
-            final double lZ = random.nextDouble(30 + 10) - 10;
-            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(player.getX() + lX), (int)(player.getZ() + lZ));
-            vindicator.setPosition(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+            vindicator.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+                BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
                 vindicator.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(vindicator);
             }
@@ -106,13 +117,13 @@ public class MobSpawn {
 
     public static void spawnRavager(World world, PlayerEntity player, int count){
         for(int i = 1; i <count + 1; i++) {
-            final double lX = random.nextDouble(30 + 10) - 10;
-            final double lZ = random.nextDouble(30 + 10) - 10;
-            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(player.getX() + lX), (int)(player.getZ() + lZ));
+            final double lX = random.nextDouble(25 + 15) - 15;
+            final double lZ = random.nextDouble(25 + 15) - 15;
+            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
             RavagerEntity ravager = getRavager(world);
-            ravager.setPosition(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+            ravager.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+                BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
                 ravager.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(ravager);
             }
@@ -121,13 +132,13 @@ public class MobSpawn {
 
     public static void spawnWitch(World world, PlayerEntity player, int count){
         for(int i = 1; i <count + 1; i++) {
-            final double lX = random.nextDouble(30 + 10) - 10;
-            final double lZ = random.nextDouble(30 + 10) - 10;
-            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(player.getX() + lX), (int)(player.getZ() + lZ));
+            final double lX = random.nextDouble(25 + 15) - 15;
+            final double lZ = random.nextDouble(25 + 15) - 15;
+            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
             WitchEntity witch = getWitch(world);
-            witch.setPosition(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+            witch.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+                BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
                 witch.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(witch);
             }
@@ -136,13 +147,13 @@ public class MobSpawn {
 
     public static void spawnEvoker(World world, PlayerEntity player, int count){
         for(int i = 1; i <count + 1; i++) {
-            final double lX = random.nextDouble(30 + 10) - 10;
-            final double lZ = random.nextDouble(30 + 10) - 10;
-            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(player.getX() + lX), (int)(player.getZ() + lZ));
+            final double lX = random.nextDouble(25 + 15) - 15;
+            final double lZ = random.nextDouble(25 + 15) - 15;
+            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
             EvokerEntity evoker = getEvoker(world);
-            evoker.setPosition(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+            evoker.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+                BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
                 evoker.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(evoker);
             }
@@ -151,13 +162,13 @@ public class MobSpawn {
 
     public static void spawnScout(World world, PlayerEntity player, int count){
         for(int i = 1; i < count + 1; i++) {
+            final double lX = random.nextDouble(25 + 15) - 15;
+            final double lZ = random.nextDouble(25 + 15) - 15;
+            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
             BanditScoutEntity scout = getScout(world);
-            final double lX = random.nextDouble(30 + 10) - 10;
-            final double lZ = random.nextDouble(30 + 10) - 10;
-            final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(player.getX() + lX), (int)(player.getZ() + lZ));
-            scout.setPosition(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+            scout.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
-                BlockPos pos = new BlockPos(player.getX() + lX, lY + 0.5, player.getZ() + lZ);
+                BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
                 scout.initialize((ServerWorld) world, world.getLocalDifficulty(pos), SpawnReason.MOB_SUMMONED, (EntityData) null, (NbtCompound) null);
                 world.spawnEntity(scout);
             }
