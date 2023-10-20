@@ -10,14 +10,12 @@ import net.minecraft.entity.mob.PillagerEntity;
 import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.entity.mob.VindicatorEntity;
 import net.minecraft.entity.mob.WitchEntity;
-import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.skteam.mumodpack.entity.custom.BscoutEntity;
 import net.skteam.mumodpack.entity.custom.ChampBEntity;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.List;
@@ -26,351 +24,398 @@ import java.util.Set;
 public class BanditRade implements  AfterKilledOtherEntity {
 
     private int deadCounter = 0;
-
     private int wave = 0;
-
     private int total = 0;
+    private int numberOfPlayersInRaid = 1;
 
-    private int numberOfPlayersInRaid = 0;
 
     ServerBossBar raidBar = new ServerBossBar(Text.literal("Нашествие бандитов - волна 1"), BossBar.Color.RED, BossBar.Style.NOTCHED_12);
+
 
     //Создание волн
 
 
-    protected void startFirstWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 18);
+    protected void startFirstWave(ServerWorld world){
+        double numberOfPillager = 18*getMultiple(numberOfPlayersInRaid);
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+
+        this.total = (int) numberOfPillager;
     }
 
-    protected  void startSecondWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 18);
-        MobSpawn.spawnVindicator(world, player, 7);
+    protected  void startSecondWave(ServerWorld world){
+        double numberOfPillager = 18*getMultiple(numberOfPlayersInRaid);
+        double numberOfVindicator = 8*getMultiple(numberOfPlayersInRaid);
+
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+        MobSpawn.spawnVindicator(world, (int) numberOfVindicator);
+
+        this.total = ((int) numberOfPillager) + ((int) numberOfVindicator);
     }
 
-    protected void startThirdWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 15);
-        MobSpawn.spawnVindicator(world, player, 6);
-        MobSpawn.spawnRavager(world, player, 2);
-        MobSpawn.spawnWitch(world, player, 3);
+    protected void startThirdWave(ServerWorld world){
+        double numberOfPillager = 16*getMultiple(numberOfPlayersInRaid);
+        double numberOfVindicator = 6*getMultiple(numberOfPlayersInRaid);
+        double numberOfRavager = 2*getMultiple(numberOfPlayersInRaid);
+        double numberOfWitch = 4*getMultiple(numberOfPlayersInRaid);
+
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+        MobSpawn.spawnVindicator(world, (int) numberOfVindicator);
+        MobSpawn.spawnRavager(world, (int) numberOfRavager);
+        MobSpawn.spawnWitch(world, (int) numberOfWitch);
+
+        this.total = ((int) numberOfPillager) + ((int) numberOfVindicator) + ((int) numberOfRavager) + ((int) numberOfWitch);
     }
 
-    protected  void startFourthWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 18);
-        MobSpawn.spawnVindicator(world, player, 7);
-        MobSpawn.spawnWitch(world, player, 6);
+    protected  void startFourthWave(ServerWorld world){
+        double numberOfPillager = 18*getMultiple(numberOfPlayersInRaid);
+        double numberOfVindicator = 8*getMultiple(numberOfPlayersInRaid);
+        double numberOfWitch = 6*getMultiple(numberOfPlayersInRaid);
+
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+        MobSpawn.spawnVindicator(world, (int) numberOfVindicator);
+        MobSpawn.spawnWitch(world, (int) numberOfWitch);
+
+        this.total = ((int) numberOfPillager) + ((int) numberOfVindicator) + ((int) numberOfWitch);
     }
 
-    protected  void startFifthWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 18);
-        MobSpawn.spawnVindicator(world, player, 7);
-        MobSpawn.spawnWitch(world, player, 2);
-        MobSpawn.spawnEvoker(world, player, 3);
+    protected  void startFifthWave(ServerWorld world){
+        double numberOfPillager = 18*getMultiple(numberOfPlayersInRaid);
+        double numberOfVindicator = 8*getMultiple(numberOfPlayersInRaid);
+        double numberOfWitch = 2*getMultiple(numberOfPlayersInRaid);
+        double numberOfEvoker = 4*getMultiple(numberOfPlayersInRaid);
+
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+        MobSpawn.spawnVindicator(world, (int) numberOfVindicator);
+        MobSpawn.spawnWitch(world, (int) numberOfWitch);
+        MobSpawn.spawnEvoker(world, (int) numberOfEvoker);
+
+        this.total = ((int) numberOfPillager) + ((int) numberOfVindicator) + ((int) numberOfEvoker) + ((int) numberOfWitch);
     }
 
-    protected  void startSixthWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 18);
-        MobSpawn.spawnVindicator(world, player, 6);
-        MobSpawn.spawnWitch(world, player, 5);
-        MobSpawn.spawnEvoker(world, player, 3);
+    protected  void startSixthWave(ServerWorld world){
+        double numberOfPillager = 18*getMultiple(numberOfPlayersInRaid);
+        double numberOfVindicator = 6*getMultiple(numberOfPlayersInRaid);
+        double numberOfWitch = 6*getMultiple(numberOfPlayersInRaid);
+        double numberOfEvoker = 4*getMultiple(numberOfPlayersInRaid);
+
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+        MobSpawn.spawnVindicator(world, (int) numberOfVindicator);
+        MobSpawn.spawnWitch(world, (int) numberOfWitch);
+        MobSpawn.spawnEvoker(world, (int) numberOfEvoker);
+
+        this.total = ((int) numberOfPillager) + ((int) numberOfVindicator) + ((int) numberOfEvoker) + ((int) numberOfWitch);
     }
 
-    protected void startSeventhWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 16);
-        MobSpawn.spawnVindicator(world, player, 10);
-        MobSpawn.spawnWitch(world, player, 4);
-        MobSpawn.spawnEvoker(world, player, 4);
+    protected void startSeventhWave(ServerWorld world){
+        double numberOfPillager = 16*getMultiple(numberOfPlayersInRaid);
+        double numberOfVindicator = 10*getMultiple(numberOfPlayersInRaid);
+        double numberOfWitch = 4*getMultiple(numberOfPlayersInRaid);
+        double numberOfEvoker = 4*getMultiple(numberOfPlayersInRaid);
+        double numberOfRavager = 4*getMultiple(numberOfPlayersInRaid);
+
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+        MobSpawn.spawnVindicator(world, (int) numberOfVindicator);
+        MobSpawn.spawnRavager(world, (int) numberOfRavager);
+        MobSpawn.spawnWitch(world, (int) numberOfWitch);
+        MobSpawn.spawnEvoker(world, (int) numberOfEvoker);
+
+        this.total = ((int) numberOfPillager) + ((int) numberOfVindicator) + ((int) numberOfEvoker) + ((int) numberOfWitch)+ ((int) numberOfRavager);
     }
 
-    protected void startEighthWave(PlayerEntity player, World world){
-        MobSpawn.spawnPillager(world, player, 16);
-        MobSpawn.spawnVindicator(world, player, 10);
-        MobSpawn.spawnWitch(world, player, 6);
-        MobSpawn.spawnEvoker(world, player, 4);
-        MobSpawn.spawnBoss(world, player, 1);
+    protected void startEighthWave(ServerWorld world){
+        double numberOfPillager = 16*getMultiple(numberOfPlayersInRaid);
+        double numberOfVindicator = 10*getMultiple(numberOfPlayersInRaid);
+        double numberOfWitch = 6*getMultiple(numberOfPlayersInRaid);
+        double numberOfRavager = 2*getMultiple(numberOfPlayersInRaid);
+        double numberOfEvoker = 4*getMultiple(numberOfPlayersInRaid);
+
+        MobSpawn.spawnPillager(world, (int) numberOfPillager);
+        MobSpawn.spawnVindicator(world, (int) numberOfVindicator);
+        MobSpawn.spawnWitch(world, (int) numberOfWitch);
+        MobSpawn.spawnRavager(world, (int) numberOfRavager);
+        MobSpawn.spawnEvoker(world, (int) numberOfEvoker);
+        MobSpawn.spawnBoss(world, 1);
+
+        this.total = 1 + ((int) numberOfPillager) + ((int) numberOfVindicator) + ((int) numberOfEvoker) + ((int) numberOfWitch)+ ((int) numberOfRavager);
     }
 
-    protected void endOfTheRaid(@NotNull PlayerEntity player){
-        player.sendMessage(Text.literal("Остатки разбойников спасаются бегством! Мы победили!"));
+    protected void endOfTheRaid(PlayerEntity player){
+        player.sendMessage(Text.literal("Остатки разбойников спасаются бегством! Вы победили!"));
     }
 
 
     @Override
     public void afterKilledOtherEntity(ServerWorld world, Entity entity , LivingEntity killedEntity) {
 
-        if (entity instanceof PlayerEntity && killedEntity instanceof SheepEntity && wave == 0) {
-            entity.sendMessage(Text.literal("Иллюзия развеялась... Легионы призваны!"));
+        if (entity instanceof PlayerEntity && killedEntity instanceof BscoutEntity) {
+            entity.sendMessage(Text.literal("Вы убили одного из разведчиков основных сил разбойников. Они что-то заподозрили..."));
+            MobSpawn.setMX(entity.getX());
+            MobSpawn.setMZ(entity.getZ());
             entity.sendMessage(Text.literal(entity.getName().getString() + " призвал нашествие бандитов!"));
-            startFirstWave(((PlayerEntity) entity), world);
+            startFirstWave(world);
             raidBar.setName(Text.literal("Нашествие бандитов - волна 1"));
             raidBar.setPercent(1.0F);
             updateBarToPlayers(world, (PlayerEntity) entity);
             deadCounter = 0;
             wave = 1;
-            total = 18;
-            MobSpawn.setMX(entity.getX());
-            MobSpawn.setMZ(entity.getZ());
         }
 
-        if(killedEntity instanceof PillagerEntity || killedEntity instanceof VindicatorEntity ||
-                killedEntity instanceof RavagerEntity || killedEntity instanceof WitchEntity || killedEntity instanceof ChampBEntity) {
+        if((killedEntity instanceof PillagerEntity || killedEntity instanceof VindicatorEntity ||
+                killedEntity instanceof RavagerEntity || killedEntity instanceof WitchEntity || killedEntity instanceof ChampBEntity)
+                && !(killedEntity instanceof BscoutEntity)) {
             deadCounter = deadCounter + 1;
 
             updateBar((float) deadCounter, (float) total);
             updateBarToPlayers(world, (PlayerEntity) entity);
 
 
-            if (deadCounter > 12 && wave == 1) {
-                if(deadCounter == 13){
+            if (deadCounter > (total - 6) && wave == 1) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 5)"));
                 }
 
-                if(deadCounter == 14){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 4)"));
                 }
 
-                if(deadCounter == 15){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 3)"));
                 }
 
-                if(deadCounter == 16){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 2)"));
                 }
 
-                if(deadCounter == 17){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 1 (врагов: 1)"));
                 }
 
             }
 
-            if (deadCounter == 18 && wave == 1) {
-                startSecondWave(((PlayerEntity) entity), world);
+            if ((deadCounter == total) && wave == 1) {
+                startSecondWave(world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 2"));
                 raidBar.setPercent(1.0F);
                 deadCounter = 0;
                 wave = 2;
-                total = 25;
             }
 
-            if (deadCounter > 19 && wave == 2) {
-                if(deadCounter == 20){
+            if (deadCounter > (total - 6) && wave == 2) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 5)"));
                 }
 
-                if(deadCounter == 21){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 4)"));
                 }
 
-                if(deadCounter == 22){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 3)"));
                 }
 
-                if(deadCounter == 23){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 2)"));
                 }
 
-                if(deadCounter == 24){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 2 (врагов: 1)"));
                 }
 
             }
 
-            if (deadCounter == 25 && wave == 2){
-                startThirdWave(((PlayerEntity) entity), world);
+            if ((deadCounter == total) && wave == 2){
+                startThirdWave(world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 3"));
                 raidBar.setPercent(1.0F);
                 deadCounter = 0;
                 wave = 3;
-                total = 26;
             }
 
-            if (deadCounter > 20 && wave == 3) {
-                if(deadCounter == 21){
+            if (deadCounter > (total - 6) && wave == 3) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 5)"));
                 }
 
-                if(deadCounter == 22){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 4)"));
                 }
 
-                if(deadCounter == 23){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 3)"));
                 }
 
-                if(deadCounter == 24){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 2)"));
                 }
 
-                if(deadCounter == 25){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 3 (врагов: 1)"));
                 }
 
             }
 
-            if (deadCounter == 26 && wave == 3){
-                startFourthWave(((PlayerEntity) entity), world);
+            if ((deadCounter == total) && wave == 3){
+                startFourthWave(world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 4"));
                 raidBar.setPercent(1.0F);
                 deadCounter = 0;
                 wave = 4;
-                total = 31;
             }
 
-            if (deadCounter > 25 && wave == 4) {
-                if(deadCounter == 26){
+            if (deadCounter > (total - 6) && wave == 4) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 5)"));
                 }
 
-                if(deadCounter == 27){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 4)"));
                 }
 
-                if(deadCounter == 28){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 3)"));
                 }
 
-                if(deadCounter == 29){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 2)"));
                 }
 
-                if(deadCounter == 30){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 4 (врагов: 1)"));
                 }
 
             }
 
-            if(deadCounter == 31 && wave == 4){
-                startFifthWave(((PlayerEntity) entity), world);
+            if((deadCounter == total) && wave == 4){
+                startFifthWave(world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 5"));
                 raidBar.setPercent(1.0F);
                 deadCounter = 0;
                 wave = 5;
-                total = 30;
             }
 
-            if (deadCounter > 24 && wave == 5) {
-                if(deadCounter == 25){
+            if (deadCounter > (total - 6) && wave == 5) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 5)"));
                 }
 
-                if(deadCounter == 26){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 4)"));
                 }
 
-                if(deadCounter == 27){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 3)"));
                 }
 
-                if(deadCounter == 28){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 2)"));
                 }
 
-                if(deadCounter == 29){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 5 (врагов: 1)"));
                 }
 
             }
 
-            if(deadCounter == 30 && wave == 5){
-                startSixthWave(((PlayerEntity) entity), world);
+            if((deadCounter == total) && wave == 5){
+                startSixthWave(world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 6"));
                 raidBar.setPercent(1.0F);
                 deadCounter = 0;
                 wave = 6;
-                total = 32;
             }
 
-            if (deadCounter > 26 && wave == 6) {
-                if(deadCounter == 27){
+            if (deadCounter > (total - 6) && wave == 6) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 5)"));
                 }
 
-                if(deadCounter == 28){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 4)"));
                 }
 
-                if(deadCounter == 29){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 3)"));
                 }
 
-                if(deadCounter == 30){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 2)"));
                 }
 
-                if(deadCounter == 31){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 6 (врагов: 1)"));
                 }
 
             }
 
-            if(deadCounter == 32 && wave == 6){
-                startSeventhWave(((PlayerEntity) entity), world);
+            if((deadCounter == total) && wave == 6){
+                startSeventhWave(world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 7"));
                 raidBar.setPercent(1.0F);
                 deadCounter = 0;
                 wave = 7;
-                total = 34;
             }
 
-            if (deadCounter > 28 && wave == 7) {
-                if(deadCounter == 29){
+            if (deadCounter > (total - 6) && wave == 7) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 5)"));
                 }
 
-                if(deadCounter == 30){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 4)"));
                 }
 
-                if(deadCounter == 31){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 3)"));
                 }
 
-                if(deadCounter == 32){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 2)"));
                 }
 
-                if(deadCounter == 33){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 7 (врагов: 1)"));
                 }
 
             }
 
-            if(deadCounter == 34 && wave == 7){
-                startEighthWave(((PlayerEntity) entity), world);
+            if((deadCounter == total) && wave == 7){
+                startEighthWave(world);
                 raidBar.setName(Text.literal("Нашествие бандитов - волна 8"));
                 raidBar.setPercent(1.0F);
                 deadCounter = 0;
                 wave = 8;
-                total = 37;
             }
 
-            if (deadCounter > 31 && wave == 8) {
-                if(deadCounter == 32){
+            if ((deadCounter > total) && wave == 8) {
+                if(deadCounter == (total - 5)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 5)"));
                 }
 
-                if(deadCounter == 33){
+                if(deadCounter == (total - 4)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 4)"));
                 }
 
-                if(deadCounter == 34){
+                if(deadCounter == (total - 3)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 3)"));
                 }
 
-                if(deadCounter == 35){
+                if(deadCounter == (total - 2)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 2)"));
                 }
 
-                if(deadCounter == 36){
+                if(deadCounter == (total - 1)){
                     raidBar.setName(Text.literal("Нашествие бандитов - волна 8 (врагов: 1)"));
                 }
 
             }
 
-            if(deadCounter == 37 && wave == 8){
-                endOfTheRaid(((PlayerEntity) entity));
+            if((deadCounter == total) && wave == 8){
+                endOfTheRaid((PlayerEntity) entity);
                 deadCounter = 0;
                 wave = 0;
+                raidBar.clearPlayers();
                 raidBar.setVisible(false);
+                updateBarToPlayers(world, (PlayerEntity) entity);
             }
         }
     }
@@ -380,7 +425,8 @@ public class BanditRade implements  AfterKilledOtherEntity {
         raidBar.setPercent((1.0F - (deadCounter/total)));
     }
 
-    private void updateBarToPlayers(@NotNull ServerWorld world, PlayerEntity entity){
+    private void updateBarToPlayers(ServerWorld world, PlayerEntity entity){
+        numberOfPlayersInRaid = 0;
         Set<ServerPlayerEntity> set = Sets.newHashSet(raidBar.getPlayers());
         List<ServerPlayerEntity> list = world.getPlayers();
         Iterator var3 = list.iterator();
@@ -396,11 +442,11 @@ public class BanditRade implements  AfterKilledOtherEntity {
         var3 = set.iterator();
 
         while(var3.hasNext()) {
-            numberOfPlayersInRaid = 0;
             serverPlayerEntity = (ServerPlayerEntity)var3.next();
             if (!list.contains(serverPlayerEntity)) {
                 raidBar.removePlayer(serverPlayerEntity);
                 numberOfPlayersInRaid = numberOfPlayersInRaid - 1;
+                serverPlayerEntity.clearStatusEffects();
             }
 
             if(list.contains(serverPlayerEntity)){
@@ -408,19 +454,24 @@ public class BanditRade implements  AfterKilledOtherEntity {
                 entity.sendMessage(Text.literal(numberOfPlayersInRaid + ""));
             }
         }
-
     }
 
-    protected void getNumberOfPlayers(PlayerEntity entity){
-        int count = 0;
-        List<ServerPlayerEntity> raidPlayerlist = (List<ServerPlayerEntity>) raidBar.getPlayers();
-        Iterator raidPlayerIterator = raidPlayerlist.iterator();
-
-        while(raidPlayerIterator.hasNext()){
-            count++;
-            entity.sendMessage(Text.literal(count + ""));
+    private double getMultiple(int numberOfPlayersInRaid){
+        double multiple = 1;
+        if(numberOfPlayersInRaid <3){
+            multiple = 0.5;
         }
-
+        else if((numberOfPlayersInRaid >= 3) && (numberOfPlayersInRaid < 6)){
+            multiple = 1;
+        }
+        else if((numberOfPlayersInRaid >= 6) && (numberOfPlayersInRaid < 9)){
+            multiple = 1.5;
+        }
+        else {
+            multiple = 2;
+        }
+        return  multiple;
     }
+
 
 }

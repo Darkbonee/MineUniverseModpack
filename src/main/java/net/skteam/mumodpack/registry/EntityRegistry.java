@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Identifier;
+import net.skteam.mumodpack.entity.custom.BscoutEntity;
 import net.skteam.mumodpack.entity.custom.ChampBEntity;
 import net.skteam.mumodpack.mumodpack;
 import software.bernie.example.registry.EntityRegistryBuilder;
@@ -18,11 +19,13 @@ public class EntityRegistry {
     public static final ItemGroup MAIN_GROUP = mumodpack.MAIN_GROUP;
 
     public static final EntityType<ChampBEntity> CHAMP_B_ENTITY = EntityRegistryBuilder.<ChampBEntity>createBuilder(new Identifier(MOD_ID, "champ_b_entity")).category(SpawnGroup.MONSTER).entity(ChampBEntity::new).dimensions(EntityDimensions.changing(1F, 2F)).build();
+    public static final EntityType<BscoutEntity> BSCOUT_ENTITY = EntityRegistryBuilder.<BscoutEntity>createBuilder(new Identifier(MOD_ID, "bscout_entity")).category(SpawnGroup.MONSTER).entity(BscoutEntity::new).dimensions(EntityDimensions.changing(1F, 2F)).build();
 
     public static final Item CHAMP_B_ENTITY_SPAWN_EGG = new SpawnEggItem(CHAMP_B_ENTITY, 0, 10027008, new Item.Settings().group(MAIN_GROUP));
 
     public static void init() {
         FabricDefaultAttributeRegistry.register(CHAMP_B_ENTITY, ChampBEntity.createBanditAttributes());
+        FabricDefaultAttributeRegistry.register(BSCOUT_ENTITY, BscoutEntity.createScoutAttributes());
 
         ItemRegistry.registerItem(CHAMP_B_ENTITY_SPAWN_EGG, "champb_spawn_egg");
     }

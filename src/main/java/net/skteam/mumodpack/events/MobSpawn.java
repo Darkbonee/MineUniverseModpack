@@ -1,22 +1,20 @@
 package net.skteam.mumodpack.events;
 
-import net.mcreator.mineuniverseextra.entity.BanditScoutEntity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.*;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
+import net.skteam.mumodpack.entity.custom.BscoutEntity;
 import net.skteam.mumodpack.entity.custom.ChampBEntity;
 import net.skteam.mumodpack.registry.EntityRegistry;
 
 import java.util.Random;
 
-import static net.mcreator.mineuniverseextra.init.MineuniverseExtraModEntities.BANDIT_SCOUT;
 
 public class MobSpawn {
 
@@ -25,12 +23,12 @@ public class MobSpawn {
     private static double MX = 0;
     private static double MZ = 0;
 
-    protected static double setMX(double MXL){
-        return MX = MXL;
+    protected static void setMX(double MXL){
+        MX = MXL;
     }
 
-    protected static double setMZ(double MZL){
-        return MZ = MZL;
+    protected static void setMZ(double MZL){
+        MZ = MZL;
     }
 
 
@@ -65,12 +63,12 @@ public class MobSpawn {
         return  boss;
     }
 
-    public static BanditScoutEntity getScout(World world){
-        BanditScoutEntity scout = new BanditScoutEntity(BANDIT_SCOUT, world);
+    public static BscoutEntity getScout(World world){
+        BscoutEntity scout = new BscoutEntity(EntityRegistry.BSCOUT_ENTITY, world);
         return scout;
     }
 
-    public static void spawnBoss(World world, PlayerEntity player, int count){
+    public static void spawnBoss(World world, int count){
         for(int i = 1; i < count + 1; i++) {
             final double lX = random.nextDouble(25 + 15) - 15;
             final double lZ = random.nextDouble(25 + 15) - 15;
@@ -85,7 +83,7 @@ public class MobSpawn {
         }
     }
 
-    public static void spawnPillager(World world, PlayerEntity player, int count){
+    public static void spawnPillager(World world, int count){
         for(int i = 1; i < count + 1; i++) {
             final double lX = random.nextDouble(25 + 15) - 15;
             final double lZ = random.nextDouble(25 + 15) - 15;
@@ -100,7 +98,7 @@ public class MobSpawn {
         }
     }
 
-    public static void spawnVindicator(World world, PlayerEntity player, int count){
+    public static void spawnVindicator(World world, int count){
         for(int i = 1; i <count + 1; i++) {
             final double lX = random.nextDouble(25 + 15) - 15;
             final double lZ = random.nextDouble(25 + 15) - 15;
@@ -115,7 +113,7 @@ public class MobSpawn {
         }
     }
 
-    public static void spawnRavager(World world, PlayerEntity player, int count){
+    public static void spawnRavager(World world, int count){
         for(int i = 1; i <count + 1; i++) {
             final double lX = random.nextDouble(25 + 15) - 15;
             final double lZ = random.nextDouble(25 + 15) - 15;
@@ -130,7 +128,7 @@ public class MobSpawn {
         }
     }
 
-    public static void spawnWitch(World world, PlayerEntity player, int count){
+    public static void spawnWitch(World world, int count){
         for(int i = 1; i <count + 1; i++) {
             final double lX = random.nextDouble(25 + 15) - 15;
             final double lZ = random.nextDouble(25 + 15) - 15;
@@ -145,7 +143,7 @@ public class MobSpawn {
         }
     }
 
-    public static void spawnEvoker(World world, PlayerEntity player, int count){
+    public static void spawnEvoker(World world, int count){
         for(int i = 1; i <count + 1; i++) {
             final double lX = random.nextDouble(25 + 15) - 15;
             final double lZ = random.nextDouble(25 + 15) - 15;
@@ -160,12 +158,12 @@ public class MobSpawn {
         }
     }
 
-    public static void spawnScout(World world, PlayerEntity player, int count){
-        for(int i = 1; i < count + 1; i++) {
+    public static void spawnScout(World world, int count){
+        for(int i = 1; i <count + 1; i++) {
             final double lX = random.nextDouble(25 + 15) - 15;
             final double lZ = random.nextDouble(25 + 15) - 15;
             final double lY = world.getTopY(Heightmap.Type.WORLD_SURFACE, (int)(MX + lX), (int)(MZ + lZ));
-            BanditScoutEntity scout = getScout(world);
+            BscoutEntity scout = getScout(world);
             scout.setPosition(MX + lX, lY + 0.5, MZ + lZ);
             if (world instanceof ServerWorld) {
                 BlockPos pos = new BlockPos(MX + lX, lY + 0.5, MZ + lZ);
@@ -174,5 +172,4 @@ public class MobSpawn {
             }
         }
     }
-
 }
